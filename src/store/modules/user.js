@@ -1,16 +1,17 @@
 import { SET_CURRENT_USER } from '../types/mutation-types'
 import { RepositoryFactory } from '../../repositories/repositoryFactory'
+/* eslint-disable */
 
 const AuthRepository = RepositoryFactory.get('auth');
 
 const state = {
-    currentUser: {},
+    currentUser: "",
 };
 
 const getters = {
     user: state => state.currentUser,
-    isManager: state => state.currentUser && state.currentUser.types && (state.currentUser.types.includes('manager') || state.currentUser.types.includes('admin')),
-    isAdmin: state => state.currentUser && state.currentUser.types && state.currentUser.types.includes('admin'),
+    isManager: state => state.currentUser == 'manager',
+    isSchool: state => state.currentUser == 'school',
 };
 const mutations = {
     [SET_CURRENT_USER](state, user) {
@@ -23,16 +24,15 @@ const actions = {
 
         if(!data) throw new Error('Credenciais inválidas');
 
-        localStorage.setItem('token', data.data.access_token);
+        localStorage.setItem('token', data.access_token);
+        commit(SET_CURRENT_USER, data.type);
 
         
-        commit(SET_CURRENT_USER, data.data.user);
     },
     async logout({ commit }) {
         await AuthRepository.logout();
         localStorage.clear();
 
-        commit(SET_CURRENT_USER, {});
     },
     async registerUser({ commit }, user) {
         const { data } = await AuthRepository.register(user);
@@ -42,13 +42,14 @@ const actions = {
     async fetchUser({ commit }) {
         const { data: user } = await AuthRepository.me();
         if(!user) throw new Error('Usuário inválido. Logue-se novamente'); 
-        return commit(SET_CURRENT_USER, user);
+        return;
     }
 };
+/* eslint-enable */
 
 export default {
     state,
     getters,
     actions,
-    mutations,
+    mutations
 }

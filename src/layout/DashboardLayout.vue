@@ -14,18 +14,14 @@
           }"
         />
 
-        <sidebar-item :link="{name: 'Escolas', icon: 'ni ni-hat-3 text-yellow', path: '/escolas'}"/>
-        <sidebar-item :link="{name: 'Violencia', icon: 'ni ni-fat-remove text-red', path: '/tipos-violencia'}"/>
-        <sidebar-item :link="{name: 'Relatos', icon: 'ni ni-bold-right text-blue', path: '/relatos'}"/>
-        <sidebar-item :link="{name: 'Relatórios', icon: 'ni ni-chart-bar-32 text-green', path: '/relatorios'}"/>
-        
-        
-        <!-- <sidebar-item :link="{name: 'Icons', icon: 'ni ni-planet text-blue', path: '/icons'}"/>
-        <sidebar-item :link="{name: 'Maps', icon: 'ni ni-pin-3 text-orange', path: '/maps'}"/>
-        <sidebar-item :link="{name: 'User Profile', icon: 'ni ni-single-02 text-yellow', path: '/profile'}"/>
-        <sidebar-item :link="{name: 'Tables', icon: 'ni ni-bullet-list-67 text-red', path: '/tables'}"/>
-        <sidebar-item :link="{name: 'Login', icon: 'ni ni-key-25 text-info', path: '/login'}"/>
-        <sidebar-item :link="{name: 'Register', icon: 'ni ni-circle-08 text-pink', path: '/register'}"/> -->
+        <!-- ROTAS DA ESCOLA -->
+        <sidebar-item  :link="{name: 'Listar Relatos', icon: 'ni ni-bullet-list-67 text-blue', path: '/relatos'}"/>
+        <sidebar-item  :link="{name: 'Criar Relatos', icon: 'ni ni-fat-add text-green', path: '/relatos/criar'}"/>
+
+        <!-- ROTAS DA SECRETARIA -->
+        <sidebar-item v-if="isManager" :link="{name: 'Escolas', icon: 'ni ni-hat-3 text-yellow', path: '/escolas'}"/>
+        <sidebar-item v-if="isManager" :link="{name: 'Violencia', icon: 'ni ni-fat-remove text-red', path: '/tipos-violencia'}"/>
+        <sidebar-item v-if="isManager" :link="{name: 'Relatórios', icon: 'ni ni-chart-bar-32 text-blue', path: '/relatorios'}"/>
 
       </template>
     </side-bar>
@@ -46,6 +42,7 @@
   import DashboardNavbar from './DashboardNavbar.vue';
   import ContentFooter from './ContentFooter.vue';
   import { FadeTransition } from 'vue2-transitions';
+  import { mapGetters } from 'vuex';
 
   export default {
     components: {
@@ -57,6 +54,13 @@
       return {
         sidebarBackground: 'vue' //vue|blue|orange|green|red|primary
       };
+    },
+    computed: {
+        ...mapGetters([
+            'user',
+            'isManager',
+            'isSchool'
+        ])
     },
     methods: {
       toggleSidebar() {

@@ -9,9 +9,7 @@
             {{title}}
           </h3>
         </div>
-        <div class="col text-right">
-          <base-button type="success" @click.native="createSchool" size="sm">Criar</base-button>
-        </div>
+       
       </div>
     </div>
 
@@ -22,42 +20,20 @@
                   tbody-classes="list"
                   :data="tableData">
         <template slot="columns">
-          <th>Id</th>
-          <th>Escola</th>
-          <th>Bairro</th>
+          <th>Descrição</th>
+          <th>Tipos de Violencia</th>
           <th></th>
         </template>
 
-        <template slot-scope="{row}">
-          <th scope="row">
-            <div class="media align-items-center">
-              <div class="media-body">
-                <span class="name mb-0 text-sm">{{row.id}}</span>
-              </div>
-            </div>
-          </th>
+        <template >
+          
           
           <td class="text-left">
-            <span class="name mb-0 text-sm">{{row.name}}</span>
+            <span class="name mb-0 text-sm">Descricao</span>
           </td>
            <td class="text-left">
-            <span class="name mb-0 text-sm">{{row.neighborhood}}</span>
+            <span class="name mb-0 text-sm">tipo</span>
           </td>
-
-          <td class="text-right">
-            <base-dropdown class="dropdown"
-                           position="right">
-              <a slot="title" class="btn btn-sm btn-icon-only text-light" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-v"></i>
-              </a>
-
-              <template>
-                <a class="dropdown-item" href="#">Editar</a>
-                <a class="dropdown-item" href="#">Excluir</a>
-              </template>
-            </base-dropdown>
-          </td>
-
         </template>
 
       </base-table>
@@ -81,7 +57,7 @@
   import { mapActions, mapGetters } from 'vuex';
 
   export default {
-    name: 'school-table',
+    name: 'infractions-table',
     props: {
       type: {
         type: String

@@ -9,9 +9,9 @@
       </div>
 
       <form action>
-        <input placeholder="E-mail" />
-        <input type="password" placeholder="Senha" />
-        <button type="submit">Entrar</button>
+        <input placeholder="E-mail" v-model="email"/>
+        <input type="password" placeholder="Senha" v-model="password"/>
+        <button type="submit" @click="login">Entrar</button>
       </form>
     </div>
     <div
@@ -21,16 +21,74 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "login",
   data() {
     return {
-      model: {
-        email: "",
-        password: "",
-      },
-    };
+      email: "secretaria@gmail.com",
+      password: "password",
+      error: {
+        email: false,
+        message_email: "",
+        password: false,
+        message_password: ""
+      }
+    }
   },
+  methods:{
+    /* eslint-disable */ 
+    ...mapActions(["logUser"]),
+    async login(e) {
+      
+      if (!this.validLogin()) {
+        try {
+          await this.logUser({
+            email: this.email,
+            password: this.password
+          });
+          this.$router.push("/");
+        } catch (err) {
+          console.log(err);
+          console.log("Email  ou senha invalido");
+        }
+      }else{
+        console.log("Somethings Wrong!")
+      }
+    },
+    validateEmail(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    },
+    /* eslint-enable */
+
+    validLogin() {
+      let error = false;
+      this.error.email = false;
+      this.error.message_email="";
+      this.error.password = false;
+      this.error.message_password="";
+
+      if (this.email == "") {
+        this.error.email = true;
+        this.error.message_email = "Email cannot be empty";
+        error = true;
+      }
+      if (this.email !="" && !this.validateEmail(this.email)) {
+        
+        this.error.email = true;
+        this.error.message_email = "Email format is incorrect";
+        error = true;
+      }
+      if (this.password == "") {
+        this.error.password = true;
+        this.error.message_password = "Password cannot be empty";
+        error = true;
+      }
+      return error;
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

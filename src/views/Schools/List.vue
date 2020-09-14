@@ -1,64 +1,63 @@
 <template>
-    <div>
-        <base-header type="gradient-warning" class="header pb-8 pt-2 pt-lg-8 d-flex align-items-center" />
-        <div class="container-fluid  mt-sm--5 mt-md--4 mt-lg--7 mt--5">
-            <div class="row">
-                <div class="col">
-                    <school-table
-                      :title=name
-                      :tableData="school"
-                    />
-                </div>
-            </div>
+  <div>
+    <base-header
+      type="gradient-warning"
+      class="header pb-8 pt-2 pt-lg-8 d-flex align-items-center"
+    />
+    <div class="container-fluid mt-sm--5 mt-md--4 mt-lg--7 mt--5">
+      <div class="row">
+        <div class="col">
+          <school-table
+            :title="name"
+            :tableData="schools"
+            base-resource="schools"
+            :repository="schoolRepository"
+            @refetchQuery="setTableData(currentPage)"
+          />
         </div>
-        
+      </div>
     </div>
+  </div>
 </template>
 <script>
-  import SchoolTable from '../Tables/SchoolTable'
+import { mapActions, mapGetters } from "vuex";
+import SchoolTable from "../Tables/SchoolTable";
+import { RepositoryFactory } from "../../repositories/repositoryFactory";
 
-  export default {
-    name: 'schools',
-    components: {
-      SchoolTable,
+export default {
+  name: "schools",
+  components: {
+    SchoolTable,
+  },
+  data() {
+    return {
+      schoolRepository: RepositoryFactory.get("schools"),
+      name: "Listar Escolas",
+      schools:[],
+      currentStatus: null,
+    };
+  },
+  methods: {
+    ...mapActions(["setPages"]),
+    async setTableData(page = 1) {
+      const {
+        data: { data, meta },
+      } = await this.schoolRepository.list(page);
+      this.schools = data;
+      this.setPages(meta);
     },
-    data() {
-      return {
-        name: "Listar Escolas",
-        school: [
-          {
-            id: '01',
-            escola: 'EMEF Independência',
-            bairro: 'Centro',
-            
-          },
-          {
-            id: '02',
-            escola: 'EMEF Jacob Brod',
-            bairro: 'Centro',
-          },
-          {
-            id: '03',
-            escola: 'EMEF Jeremias Froes',
-            bairro: 'Centro',            
-          },
-           {
-            id: '04',
-            escola: 'EMEF Joaquim Nabuco',
-            bairro: 'Centro',            
-          },
-          {
-            id: '05',
-            escola: 'EMEF Jornalista Deogar Soares',
-            bairro: 'Centro',
-          }
-        ],
-        currentStatus: null,
-      }
+  },
+  computed: {
+    ...mapGetters(["currentPage"]),
+  },
+  watch: {
+    async currentPage(page) {
+      await this.setTableData(page);
     },
-    
-   
-
-  };
+  },
+  async created() {
+    await this.setTableData();
+  },
+};
 </script>
 <style></style>

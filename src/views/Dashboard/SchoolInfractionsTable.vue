@@ -39,7 +39,7 @@
 </template>
 <script>
   export default {
-    name: 'scholl-infractions-table',
+    name: 'school-infractions-table',
     data() {
       return {
         tableData: [

@@ -44,9 +44,9 @@
         <hr class="my-3" />
       </div>
        <div class="logout">
-          <router-link to="/logout">
+          <router-link to="/"  @click.native="logUserOut">
             <i class="ni ni-user-run"></i>
-            <span>Logout</span>
+            <span>Sair</span>
           </router-link>
         </div>
     </div>
@@ -54,6 +54,7 @@
 </template>
 <script>
 import NavbarToggleButton from "@/components/NavbarToggleButton";
+import { mapActions } from 'vuex';
 
 export default {
   name: "sidebar",
@@ -79,13 +80,24 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["logout"]),
+
     closeSidebar() {
       this.$sidebar.displaySidebar(false);
     },
     showSidebar() {
       this.$sidebar.displaySidebar(true);
     },
+    async logUserOut() {
+      try {
+        await this.logout();
+        this.$router.push("/login");
+      } catch (err) {
+        // console.log(err.message);
+      }
+    },
   },
+  
   beforeDestroy() {
     if (this.$sidebar.showSidebar) {
       this.$sidebar.showSidebar = false;

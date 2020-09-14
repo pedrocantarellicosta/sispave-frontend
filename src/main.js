@@ -15,16 +15,35 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import './registerServiceWorker'
-import ArgonDashboard from './plugins/argon-dashboard'
+import Vue from 'vue';
+import Axios from "axios";
+import store from './store'
+import VueSweetAlert from 'vue-sweetalert2'
+
+import App from './App.vue';
+import router from './router';
+import './registerServiceWorker';
+import ArgonDashboard from './plugins/argon-dashboard';
+import vSelect from 'vue-select';
+
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+
+import 'vue-select/dist/vue-select.css';
+
 
 Vue.config.productionTip = false
+Vue.prototype.$http  =  Axios;
 
-Vue.use(ArgonDashboard)
+
+Vue.use(ArgonDashboard);
+Vue.component('v-select', vSelect);
+Vue.use(VueSweetAlert);
+
+
+
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

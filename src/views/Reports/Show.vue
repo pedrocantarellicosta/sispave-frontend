@@ -4,52 +4,72 @@
       type="gradient-warning"
       class="header pb-8 pt-2 pt-lg-8 d-flex align-items-center"
     />
-    <div class="container-fluid mt-sm--5 mt-md--4 mt-lg--7 mt--5">
-      <div class="row">
-        <div class="col-12">
-          <card type="default" header-classes="bg-transparent">
-            <div slot="header" class="row align-items-center">
-              <div class="col">
-                <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
-                <h5 class="h3 text-white mb-0">Sales value</h5>
-              </div>
-              <div class="col">
-                <ul class="nav nav-pills justify-content-end">
-                  <li class="nav-item mr-2 mr-md-0">
-                    <a
-                      class="nav-link py-2 px-3"
-                      href="#"
-                      :class="{active: bigLineChart.activeIndex === 0}"
-                      @click.prevent="initBigChart(0)"
-                    >
-                      <span class="d-none d-md-block">Month</span>
-                      <span class="d-md-none">M</span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a
-                      class="nav-link py-2 px-3"
-                      href="#"
-                      :class="{active: bigLineChart.activeIndex === 1}"
-                      @click.prevent="initBigChart(1)"
-                    >
-                      <span class="d-none d-md-block">Week</span>
-                      <span class="d-md-none">W</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <line-chart
-              :height="350"
-              ref="bigChart"
-              :chart-data="bigLineChart.chartData"
-              :extra-options="bigLineChart.extraOptions"
-            ></line-chart>
-          </card>
+    <div class="col-12 order-xl-1 mt-sm--5 mt-md--4 mt-lg--7 mt--5">
+      <card shadow type="secondary">
+        <div slot="header" class="bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col">
+          <h3 class="mb-0">Relatórios (30 dias)</h3>
         </div>
+        <div class="col text-right">
+          <base-button type="success" size="sm">Ver mais</base-button>
+        </div>
+          </div>
+        </div>
+        <template>
+          <div class="row d-flex justify-content-center align-item-center">
+            <div class="col-12">
+              <card type="default" header-classes="bg-transparent">
+                <div slot="header" class="row align-items-center">
+                  <div class="col">
+                    <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
+                    <h5 class="h3 text-white mb-0">Sales value</h5>
+                  </div>
+                  <div class="col">
+                    <ul class="nav nav-pills justify-content-end">
+                      <li class="nav-item mr-2 mr-md-0">
+                        <a
+                          class="nav-link py-2 px-3"
+                          href="#"
+                          :class="{active: bigLineChart.activeIndex === 0}"
+                          @click.prevent="initBigChart(0)"
+                        >
+                          <span class="d-none d-md-block">Month</span>
+                          <span class="d-md-none">M</span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link py-2 px-3"
+                          href="#"
+                          :class="{active: bigLineChart.activeIndex === 1}"
+                          @click.prevent="initBigChart(1)"
+                        >
+                          <span class="d-none d-md-block">Week</span>
+                          <span class="d-md-none">W</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <line-chart
+                  :height="350"
+                  ref="bigChart"
+                  :chart-data="bigLineChart.chartData"
+                  :extra-options="bigLineChart.extraOptions"
+                ></line-chart>
+              </card>
+            </div>
+          </div>
+        </template>
+      </card>
+    </div>
 
-        <div class="col-12">
+    <div class="container-fluid mt-5">
+      <div class="row">
+        <div class="col-12"></div>
+
+        <!-- <div class="col-12">
           <card header-classes="bg-transparent">
             <div slot="header" class="row align-items-center">
               <div class="col">
@@ -60,7 +80,7 @@
 
             <bar-chart :height="350" ref="barChart" :chart-data="redBarChart.chartData"></bar-chart>
           </card>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
@@ -68,13 +88,13 @@
 <script>
 import * as chartConfigs from "@/components/Charts/config";
 import LineChart from "@/components/Charts/LineChart";
-  import BarChart from '@/components/Charts/BarChart';
+// import BarChart from '@/components/Charts/BarChart';
 
 export default {
   name: "schools",
   components: {
     LineChart,
-    BarChart
+    // BarChart
   },
   data() {
     return {
@@ -92,7 +112,7 @@ export default {
       },
       redBarChart: {
         chartData: {
-          labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+          labels: ["Jul", "Ago", "Set", "Out", "Nov", "Dez"],
           datasets: [
             {
               label: "Sales",
@@ -112,7 +132,7 @@ export default {
             data: this.bigLineChart.allData[index],
           },
         ],
-        labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: ["Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
       };
       this.bigLineChart.chartData = chartData;
       this.bigLineChart.activeIndex = index;

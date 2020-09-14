@@ -6,7 +6,7 @@
         
         <div class="col-xl-3 col-lg-6">
           <stats-card
-            title="Maior Infração"
+            title="Violência mais relatada"
             type="gradient-red"
             sub-title="Drogas"
             icon="ni ni-active-40"
@@ -24,7 +24,7 @@
         
         <div class="col-xl-3 col-lg-6">
           <stats-card
-            title="Total de infrações"
+            title="Total de relatos"
             type="gradient-orange"
             sub-title="22,356"
             icon="ni ni-chart-pie-35"
@@ -42,7 +42,7 @@
         
         <div class="col-xl-3 col-lg-6">
           <stats-card
-            title="Escola com mais infrações"
+            title="Escola com mais relatos"
             type="gradient-green"
             sub-title="EMEF Independência"
             icon="ni ni-money-coins"
@@ -60,9 +60,9 @@
         
         <div class="col-xl-3 col-lg-6">
           <stats-card
-            title="Performance"
+            title="Bairro com mais relatos"
             type="gradient-info"
-            sub-title="49,65%"
+            sub-title="Dunas"
             icon="ni ni-chart-bar-32"
             class="mb-4 mb-xl-0"
           >
@@ -84,7 +84,7 @@
       <div class="row">
         <!--Tables-->
         <div class="col-xl-12 mb-5 mb-xl-0">
-          <scholl-infractions-table></scholl-infractions-table>
+          <school-infractions-table></school-infractions-table>
         </div>
         <!--End tables-->
       </div>
@@ -96,11 +96,11 @@
 import * as chartConfigs from "@/components/Charts/config";
 
 // Tables
-import SchollInfractionsTable from "./Dashboard/SchollInfractionsTable";
+import SchoolInfractionsTable from "./Dashboard/SchoolInfractionsTable";
 
 export default {
   components: {
-    SchollInfractionsTable,
+    SchoolInfractionsTable,
   },
   data() {
     return {

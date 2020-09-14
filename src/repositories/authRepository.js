@@ -10,9 +10,6 @@ export default {
     async logout() {
         return Repository.post(resource('logout'), null, { headers: { authorization: getAccessToken() }});
     },
-    async register(userData) {
-        return Repository.post(resource('register'), userData);
-    },
     async me() {
         return Repository.post(resource('me'), null, { headers: { authorization: getAccessToken() }});
     },
