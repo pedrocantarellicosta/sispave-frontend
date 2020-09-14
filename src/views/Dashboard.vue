@@ -8,14 +8,11 @@
           <stats-card
             title="Violência mais relatada"
             type="gradient-red"
-            sub-title="Drogas"
+            :sub-title=violenceMoreRelated
             icon="ni ni-active-40"
             class="mb-4 mb-xl-0"
           >
             <template slot="footer">
-              <span class="text-success mr-2">
-                <i class="fa fa-arrow-up"></i> 3.48%
-              </span>
               <span class="text-nowrap">Último mês</span>
             </template>
           </stats-card>
@@ -26,50 +23,41 @@
           <stats-card
             title="Total de relatos"
             type="gradient-orange"
-            sub-title="22,356"
+            :sub-title=numberAllReports
             icon="ni ni-chart-pie-35"
             class="mb-4 mb-xl-0"
           >
             <template slot="footer">
-              <span class="text-success mr-2">
-                <i class="fa fa-arrow-up"></i> 12.18%
-              </span>
               <span class="text-nowrap">Último mês</span>
             </template>
           </stats-card>
         </div>
         
         
-        <div class="col-xl-3 col-lg-6">
+        <div class="col-xl-3 col-lg-6" v-if="isManager">
           <stats-card
             title="Escola com mais relatos"
             type="gradient-green"
-            sub-title="EMEF Independência"
+            :sub-title=userWithMoreReports
             icon="ni ni-money-coins"
             class="mb-4 mb-xl-0"
           >
             <template slot="footer">
-              <span class="text-danger mr-2">
-                <i class="fa fa-arrow-down"></i> 1.70%
-              </span>
               <span class="text-nowrap">Último mês</span>
             </template>
           </stats-card>
         </div>
         
         
-        <div class="col-xl-3 col-lg-6">
+        <div class="col-xl-3 col-lg-6" v-if="isManager">
           <stats-card
             title="Bairro com mais relatos"
             type="gradient-info"
-            sub-title="Dunas"
+            :sub-title=neighborhoodWithMoreReports
             icon="ni ni-chart-bar-32"
             class="mb-4 mb-xl-0"
           >
             <template slot="footer">
-              <span class="text-success mr-2">
-                <i class="fa fa-arrow-up"></i> 54.8%
-              </span>
               <span class="text-nowrap">Último mês</span>
             </template>
           </stats-card>
@@ -80,11 +68,17 @@
     </base-header>
 
     <!--Charts-->
-    <div class="container-fluid mt--7">
+    <div class="container-fluid mt--7" v-if="isManager">
       <div class="row">
         <!--Tables-->
         <div class="col-xl-12 mb-5 mb-xl-0">
-          <school-infractions-table></school-infractions-table>
+          <school-infractions-table
+            title="top 5"
+            :tableData="top5UsersWithMoreReports"
+            base-resource="schools"
+            :repository="dashboardRepository"
+            @refetchQuery="setTableData(currentPage)"
+          ></school-infractions-table>
         </div>
         <!--End tables-->
       </div>
@@ -93,9 +87,8 @@
 </template>
 <script>
 // Charts
-import * as chartConfigs from "@/components/Charts/config";
-
-// Tables
+import { RepositoryFactory } from '../repositories/repositoryFactory';
+import { mapGetters } from 'vuex'
 import SchoolInfractionsTable from "./Dashboard/SchoolInfractionsTable";
 
 export default {
@@ -104,49 +97,39 @@ export default {
   },
   data() {
     return {
-      bigLineChart: {
-        allData: [
-          [0, 20, 10, 30, 15, 40, 20, 60, 60],
-          [0, 20, 5, 25, 10, 30, 15, 40, 40],
-        ],
-        activeIndex: 0,
-        chartData: {
-          datasets: [],
-          labels: [],
-        },
-        extraOptions: chartConfigs.blueChartOptions,
-      },
-      redBarChart: {
-        chartData: {
-          labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-          datasets: [
-            {
-              label: "Sales",
-              data: [25, 20, 30, 22, 17, 29],
-            },
-          ],
-        },
-      },
+     dashboardRepository: RepositoryFactory.get('dashboard'),
+     neighborhoodWithMoreReports:"",
+     numberAllReports: "",
+     userWithMoreReports:"",
+     violenceMoreRelated:"",
+     top5UsersWithMoreReports:[],
     };
   },
   methods: {
-    initBigChart(index) {
-      let chartData = {
-        datasets: [
-          {
-            label: "Performance",
-            data: this.bigLineChart.allData[index],
-          },
-        ],
-        labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      };
-      this.bigLineChart.chartData = chartData;
-      this.bigLineChart.activeIndex = index;
-    },
+    async getData(){
+      const {
+        data: { data },
+      } = await this.dashboardRepository.show();
+      
+      this.neighborhoodWithMoreReports = data.neighborhoodWithMoreReports[0].neighborhood;
+      this.numberAllReports = data.numberAllReports.toString();
+      this.userWithMoreReports = data.userWithMoreReports[0].name;
+      this.violenceMoreRelated = data.violenceMoreRelated[0].name;
+      this.top5UsersWithMoreReports = data.top5UsersWithMoreReports;
+
+    }
   },
-  mounted() {
-    this.initBigChart(0);
+  computed:{
+    ...mapGetters([
+            'user',
+            'isManager',
+            'isSchool'
+        ])
   },
+  async created() {
+    await this.getData();
+  },
+  
 };
 </script>
 <style></style>

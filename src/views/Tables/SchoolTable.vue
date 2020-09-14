@@ -20,7 +20,8 @@
                   :class="type === 'dark' ? 'table-dark': ''"
                   :thead-classes="type === 'dark' ? 'thead-dark': 'thead-light'"
                   tbody-classes="list"
-                  :data="tableData">
+                  :data="tableData"
+                  v-if="tableData.length">
         <template slot="columns">
           <th>Id</th>
           <th>Escola</th>
@@ -57,9 +58,7 @@
               </template>
             </base-dropdown>
           </td>
-
         </template>
-
       </base-table>
     </div>
 
@@ -104,6 +103,8 @@
     methods: {
        ...mapActions([
         'goToPage',
+        'appIsLoading',
+
       ]),
       createSchool(){
         this.$router.push("/escolas/criar");

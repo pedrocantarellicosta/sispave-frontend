@@ -22,13 +22,13 @@
 
         <template slot-scope="{row}">
           <th scope="row">
-            {{row.escola}}
+            {{row.name}}
           </th>
           <td>
-            {{row.bairro}}
+            {{row.neighborhood}}
           </td>
           <td>
-            {{row.total}}
+            {{row.reports}}
           </td>
         </template>
 
@@ -38,37 +38,40 @@
   </div>
 </template>
 <script>
+  import { mapActions, mapGetters } from 'vuex';
+
   export default {
     name: 'school-infractions-table',
+    props: {
+      type: {
+        type: String
+      },
+      title: String,
+      tableData: {
+        type: Array,
+      },
+    },
     data() {
       return {
-        tableData: [
-          {
-            escola: 'EMEF Independência',
-            bairro: "Centro",
-            total: '4,569',
-          },
-          {
-            escola: 'EMEF Jacob Brod',
-            bairro: "Centro",
-            total: '3,985',
-          },
-          {
-            escola: 'EMEF Jeremias Froes',
-            bairro: "Centro",
-            total: '3,513',
-          },
-          {
-            escola: 'EMEF Joaquim Nabuco',
-            bairro: "Centro",
-            total: '2,050',
-          },
-          {
-            escola: 'EMEF Jornalista Deogar Soares',
-            bairro: "Centro",
-            total: '1,795',
-          }
-        ]
+      }
+    },
+    computed:{
+      ...mapGetters([
+        'totalPages',
+        'currentPage',
+       ]),
+    },
+    mounted(){
+      console.log(this.tableData);
+    },
+    methods: {
+       ...mapActions([
+        'goToPage',
+        'appIsLoading',
+
+      ]),
+      createSchool(){
+        this.$router.push("/escolas/criar");
       }
     }
   }

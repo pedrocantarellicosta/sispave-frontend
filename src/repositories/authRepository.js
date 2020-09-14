@@ -11,7 +11,7 @@ export default {
         return Repository.post(resource('logout'), null, { headers: { authorization: getAccessToken() }});
     },
     async me() {
-        return Repository.post(resource('me'), null, { headers: { authorization: getAccessToken() }});
+        return Repository.get(resource('me'), { headers: { authorization: getAccessToken() }});
     },
     async fetchUsers() {
         return Repository.get(resource('users'), {

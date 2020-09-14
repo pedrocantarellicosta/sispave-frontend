@@ -15,8 +15,8 @@
         />
 
         <!-- ROTAS DA ESCOLA -->
-        <sidebar-item  :link="{name: 'Listar Relatos', icon: 'ni ni-bullet-list-67 text-blue', path: '/relatos'}"/>
-        <sidebar-item  :link="{name: 'Criar Relatos', icon: 'ni ni-fat-add text-green', path: '/relatos/criar'}"/>
+        <sidebar-item v-if="isSchool" :link="{name: 'Listar Relatos', icon: 'ni ni-bullet-list-67 text-blue', path: '/relatos'}"/>
+        <sidebar-item v-if="isSchool" :link="{name: 'Criar Relatos', icon: 'ni ni-fat-add text-green', path: '/relatos/criar'}"/>
 
         <!-- ROTAS DA SECRETARIA -->
         <sidebar-item v-if="isManager" :link="{name: 'Escolas', icon: 'ni ni-hat-3 text-yellow', path: '/escolas'}"/>
@@ -42,7 +42,7 @@
   import DashboardNavbar from './DashboardNavbar.vue';
   import ContentFooter from './ContentFooter.vue';
   import { FadeTransition } from 'vue2-transitions';
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
 
   export default {
     components: {
@@ -63,12 +63,25 @@
         ])
     },
     methods: {
+      ...mapActions(['fetchUser']),
       toggleSidebar() {
         if (this.$sidebar.showSidebar) {
           this.$sidebar.displaySidebar(false);
         }
       }
-    }
+    },
+    async created() {
+      try {
+        await this.fetchUser();
+        
+      } catch (err) {
+        console.log(err);
+        if (err.response.status === 401) {
+          localStorage.clear();
+          this.$router.push("/login");
+        }
+      }
+    },
   };
 </script>
 <style lang="scss">

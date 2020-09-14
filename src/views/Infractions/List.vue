@@ -32,31 +32,35 @@ export default {
   data() {
     return {
       infractionsRepository: RepositoryFactory.get("infractions"),
-      name: "Listar Escolas",
+      authRepository: RepositoryFactory.get("auth"),
+      reportsRepository: RepositoryFactory.get("reports"),
+      user: null,
+      name: "Relatos",
       infractions:[],
       currentStatus: null,
     };
   },
+  
   methods: {
     ...mapActions(["setPages"]),
-    async setTableData(page = 1) {
+    async setTableData(id) {
       const {
-        data: { data, meta },
-      } = await this.infractionsRepository.list(page);
-      this.infractions = data;
-      this.setPages(meta);
+        data,
+      } = await this.reportsRepository.listSchool(id);
+      this.infractions = data.data.reportList;
     },
+  },
+  async mounted(){
+    
   },
   computed: {
     ...mapGetters(["currentPage"]),
   },
-  watch: {
-    async currentPage(page) {
-      await this.setTableData(page);
-    },
-  },
   async created() {
-    await this.setTableData();
+    const { data } = await this.authRepository.me();
+    this.user = data.user;
+    
+    await this.setTableData(this.user.id);
   },
 };
 </script>

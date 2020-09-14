@@ -21,14 +21,13 @@ const getCurrentUser = async redirectTo => {
   
   try {
     let user = store.getters.user.currentUser;
-
+    console.log(user);
     if(!user) {
       const AuthRepository = RepositoryFactory.get('auth');
 
       const { data } = await AuthRepository.me();
     
       user = data;
-      
       store.commit(SET_CURRENT_USER , user);
 
       return user;

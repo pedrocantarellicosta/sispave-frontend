@@ -20,22 +20,19 @@
                   tbody-classes="list"
                   :data="tableData">
         <template slot="columns">
-          <th>Data</th>
-          <th>Descrição</th>
-          <th>Tipos de Violencia</th>
+          <th>Tipo de violência</th>
+          <th>Total</th>
           
         </template>
 
         <template slot-scope="{row}">
           
+         
           <td class="text-left">
-            <span class="name mb-0 text-sm">{{formatDate(row.date)}}</span>
-          </td>
-          <td class="text-left">
-            <span class="name mb-0 text-sm">{{row.description}}</span>
+            <span class="name mb-0 text-sm">{{row.name}}</span>
           </td>
            <td class="text-left">
-            <badge type="default" class="ml-2" v-for="(item, index) in row.violences" :key=index>{{ item.name }}</badge>
+            <span class="name mb-0 text-sm">{{row.total}}</span>
           </td>
         </template>
 
@@ -53,7 +50,7 @@
   import { mapActions, mapGetters } from 'vuex';
 
   export default {
-    name: 'infractions-table',
+    name: 'neighborhood-all-data-table',
     props: {
       type: {
         type: String
@@ -73,13 +70,13 @@
         'currentPage',
        ]),
     },
-    created(){
-      console.log(this.tableData);
-    },
     methods: {
        ...mapActions([
         'goToPage',
       ]),
+      createSchool(){
+        this.$router.push("/escolas/criar");
+      },
       formatDate (input) {
         var datePart = input.match(/\d+/g),
         year = datePart[0].substring(2), // get only two digits

@@ -20,23 +20,20 @@
                   tbody-classes="list"
                   :data="tableData">
         <template slot="columns">
-          <th>Data</th>
-          <th>Descrição</th>
-          <th>Tipos de Violencia</th>
+          <th>Tipo de Violência</th>
+          <th>Total</th>
           
         </template>
 
         <template slot-scope="{row}">
           
           <td class="text-left">
-            <span class="name mb-0 text-sm">{{formatDate(row.date)}}</span>
+            <span class="name mb-0 text-sm">{{row.name}}</span>
           </td>
           <td class="text-left">
-            <span class="name mb-0 text-sm">{{row.description}}</span>
+            <span class="name mb-0 text-sm">{{row.total}}</span>
           </td>
-           <td class="text-left">
-            <badge type="default" class="ml-2" v-for="(item, index) in row.violences" :key=index>{{ item.name }}</badge>
-          </td>
+          
         </template>
 
       </base-table>
@@ -53,7 +50,7 @@
   import { mapActions, mapGetters } from 'vuex';
 
   export default {
-    name: 'infractions-table',
+    name: 'school-all-data-table',
     props: {
       type: {
         type: String
@@ -73,20 +70,14 @@
         'currentPage',
        ]),
     },
-    created(){
-      console.log(this.tableData);
-    },
     methods: {
        ...mapActions([
         'goToPage',
       ]),
-      formatDate (input) {
-        var datePart = input.match(/\d+/g),
-        year = datePart[0].substring(2), // get only two digits
-        month = datePart[1], day = datePart[2];
-
-        return day+'/'+month+'/'+year;
-      }
+      createSchool(){
+        this.$router.push("/escolas/criar");
+      },
+      
     }
   }
 </script>

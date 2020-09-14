@@ -9,138 +9,102 @@
         <div slot="header" class="bg-white border-0">
           <div class="row align-items-center">
             <div class="col">
-          <h3 class="mb-0">Relatórios (30 dias)</h3>
-        </div>
-        <div class="col text-right">
-          <base-button type="success" size="sm">Ver mais</base-button>
-        </div>
-          </div>
-        </div>
-        <template>
-          <div class="row d-flex justify-content-center align-item-center">
-            <div class="col-12">
-              <card type="default" header-classes="bg-transparent">
-                <div slot="header" class="row align-items-center">
-                  <div class="col">
-                    <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
-                    <h5 class="h3 text-white mb-0">Sales value</h5>
-                  </div>
-                  <div class="col">
-                    <ul class="nav nav-pills justify-content-end">
-                      <li class="nav-item mr-2 mr-md-0">
-                        <a
-                          class="nav-link py-2 px-3"
-                          href="#"
-                          :class="{active: bigLineChart.activeIndex === 0}"
-                          @click.prevent="initBigChart(0)"
-                        >
-                          <span class="d-none d-md-block">Month</span>
-                          <span class="d-md-none">M</span>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link py-2 px-3"
-                          href="#"
-                          :class="{active: bigLineChart.activeIndex === 1}"
-                          @click.prevent="initBigChart(1)"
-                        >
-                          <span class="d-none d-md-block">Week</span>
-                          <span class="d-md-none">W</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <line-chart
-                  :height="350"
-                  ref="bigChart"
-                  :chart-data="bigLineChart.chartData"
-                  :extra-options="bigLineChart.extraOptions"
-                ></line-chart>
-              </card>
+              <h3 class="mb-0">Relatórios</h3>
             </div>
           </div>
-        </template>
+        </div>
+        <tabs>
+          <tab-pane title="Escola">
+            <school-all-data-table
+              :title="schoolTitle"
+              :tableData="schoolData"
+              base-resource="reports"
+              :repository="reportRepository"
+              @refetchQuery="setSchoolData()"
+            />
+          </tab-pane>
+          <tab-pane title="Violência">
+            <violence-all-data-table
+              :title="violenceTitle"
+              :tableData="violenceData"
+              base-resource="reports"
+              :repository="reportRepository"
+              @refetchQuery="setViolenceData()"
+            />
+          </tab-pane>
+          <tab-pane title="Bairro">
+            <neighborhood-all-data-table
+              :title="neiborhoodTitle"
+              :tableData="neighborhoodData"
+              base-resource="reports"
+              :repository="reportRepository"
+              @refetchQuery="setNeighborhoodData()"
+            />
+          </tab-pane>
+        </tabs>
       </card>
     </div>
 
     <div class="container-fluid mt-5">
       <div class="row">
         <div class="col-12"></div>
-
-        <!-- <div class="col-12">
-          <card header-classes="bg-transparent">
-            <div slot="header" class="row align-items-center">
-              <div class="col">
-                <h6 class="text-uppercase text-muted ls-1 mb-1">Performance</h6>
-                <h5 class="h3 mb-0">Total orders</h5>
-              </div>
-            </div>
-
-            <bar-chart :height="350" ref="barChart" :chart-data="redBarChart.chartData"></bar-chart>
-          </card>
-        </div>-->
       </div>
     </div>
   </div>
 </template>
 <script>
-import * as chartConfigs from "@/components/Charts/config";
-import LineChart from "@/components/Charts/LineChart";
-// import BarChart from '@/components/Charts/BarChart';
+import { RepositoryFactory } from "../../repositories/repositoryFactory";
+import SchoolAllDataTable from "../Tables/Reports/SchoolAllDataTable";
+import ViolenceAllDataTable from "../Tables/Reports/ViolenceAllDataTable";
+import NeighborhoodAllDataTable from "../Tables/Reports/NeighborhoodAllDataTable";
 
 export default {
-  name: "schools",
+  name: "Reports",
   components: {
-    LineChart,
-    // BarChart
+    SchoolAllDataTable,
+    ViolenceAllDataTable,
+    NeighborhoodAllDataTable,
   },
   data() {
     return {
-      bigLineChart: {
-        allData: [
-          [0, 20, 10, 30, 15, 40, 20, 60, 60],
-          [0, 20, 5, 25, 10, 30, 15, 40, 40],
-        ],
-        activeIndex: 0,
-        chartData: {
-          datasets: [],
-          labels: [],
-        },
-        extraOptions: chartConfigs.blueChartOptions,
-      },
-      redBarChart: {
-        chartData: {
-          labels: ["Jul", "Ago", "Set", "Out", "Nov", "Dez"],
-          datasets: [
-            {
-              label: "Sales",
-              data: [25, 20, 30, 22, 17, 29],
-            },
-          ],
-        },
-      },
+      reportRepository: RepositoryFactory.get("reports"),
+      schoolTitle: "",
+      violenceTitle: "",
+      neiborhoodTitle: "",
+      schoolData: [],
+      violenceData: [],
+      neighborhoodData: [],
     };
   },
   methods: {
-    initBigChart(index) {
-      let chartData = {
-        datasets: [
-          {
-            label: "Performance",
-            data: this.bigLineChart.allData[index],
-          },
-        ],
-        labels: ["Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
-      };
-      this.bigLineChart.chartData = chartData;
-      this.bigLineChart.activeIndex = index;
+    async setSchoolData() {
+      const id = 2;
+      const { data } = await this.reportRepository.listSchoolAllData(id);
+      this.schoolData = [];
+      this.schoolTitle = "Escola " + data.data.nameUser;
+      this.schoolData = data.data.violenceList;
+    },
+    async setViolenceData() {
+      const id = 3;
+      const { data } = await this.reportRepository.listViolenceAllData(id);
+      this.violenceTitle = "Violência - "+ data.data.name;
+      this.violenceData = data.data.userList;
+      console.log(data.data);
+    },
+    async setNeighborhoodData() {
+      const id = 2;
+      const { data } = await this.reportRepository.listNeighborhoodAllData(id);
+      this.neighborhoodData = data.data.userList;
+      this.neiborhoodTitle = "Bairro - "+data.data.neighborhood;
+      // console.log(data);
     },
   },
-  mounted() {
-    this.initBigChart(0);
+  async created() {
+    await this.setSchoolData();
+    await this.setViolenceData();
+    await this.setNeighborhoodData();
   },
+  mounted() {},
 };
 </script>
 <style></style>
