@@ -73,9 +73,6 @@
         'currentPage',
        ]),
     },
-    created(){
-      console.log(this.tableData);
-    },
     methods: {
        ...mapActions([
         'goToPage',

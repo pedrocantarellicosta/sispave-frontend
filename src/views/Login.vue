@@ -39,7 +39,7 @@ export default {
   },
   methods:{
     /* eslint-disable */ 
-    ...mapActions(["logUser"]),
+    ...mapActions(["logUser", "fetchUser"]),
     async login(e) {
       
       if (!this.validLogin()) {
@@ -48,6 +48,7 @@ export default {
             email: this.email,
             password: this.password
           });
+          await this.fetchUser();
           this.$router.push("/");
         } catch (err) {
           console.log(err);

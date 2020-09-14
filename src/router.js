@@ -21,7 +21,6 @@ const getCurrentUser = async redirectTo => {
   
   try {
     let user = store.getters.user.currentUser;
-    console.log(user);
     if(!user) {
       const AuthRepository = RepositoryFactory.get('auth');
 

@@ -96,7 +96,6 @@ export default {
       const { data } = await this.reportRepository.listNeighborhoodAllData(id);
       this.neighborhoodData = data.data.userList;
       this.neiborhoodTitle = "Bairro - "+data.data.neighborhood;
-      // console.log(data);
     },
   },
   async created() {

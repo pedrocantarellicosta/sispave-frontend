@@ -59,7 +59,6 @@ export default {
     };
   },
   async created() {
-    console.log()
     const { data } = await this.getAllViolences();
     data.map((violence) => {
       this.violences.push(Object.assign({ checked: false }, violence));

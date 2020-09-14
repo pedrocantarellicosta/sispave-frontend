@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     addViolence() {
-      console.log("entro");
+      
     },
   },
 };
