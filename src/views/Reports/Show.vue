@@ -78,21 +78,20 @@ export default {
   },
   methods: {
     async setSchoolData() {
-      const id = 2;
+      const id = 38;
       const { data } = await this.reportRepository.listSchoolAllData(id);
       this.schoolData = [];
-      this.schoolTitle = "Escola " + data.data.nameUser;
+      this.schoolTitle = "Escola - " + data.data.nameUser;
       this.schoolData = data.data.violenceList;
     },
     async setViolenceData() {
-      const id = 3;
+      const id = 11;
       const { data } = await this.reportRepository.listViolenceAllData(id);
       this.violenceTitle = "Violência - "+ data.data.name;
       this.violenceData = data.data.userList;
-      console.log(data.data);
     },
     async setNeighborhoodData() {
-      const id = 2;
+      const id = 38;
       const { data } = await this.reportRepository.listNeighborhoodAllData(id);
       this.neighborhoodData = data.data.userList;
       this.neiborhoodTitle = "Bairro - "+data.data.neighborhood;

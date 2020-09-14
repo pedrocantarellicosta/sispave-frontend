@@ -155,7 +155,6 @@ router.beforeEach(async (to, from, next) => {
   }
   if(to.name === 'login' && isAuthenticate()){
     const user = await getCurrentUser(next);
-    console.log(user);
     if(to.meta.role) 
       return next(
         userHasPermission(to.meta.role, user)

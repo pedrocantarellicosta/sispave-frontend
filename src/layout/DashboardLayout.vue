@@ -5,6 +5,7 @@
       short-title="Argon"
       title="SISPAV"
     >
+    
       <template slot="links">
         <sidebar-item
           :link="{
@@ -20,7 +21,7 @@
 
         <!-- ROTAS DA SECRETARIA -->
         <sidebar-item v-if="isManager" :link="{name: 'Escolas', icon: 'ni ni-hat-3 text-yellow', path: '/escolas'}"/>
-        <sidebar-item v-if="isManager" :link="{name: 'Violencia', icon: 'ni ni-fat-remove text-red', path: '/tipos-violencia'}"/>
+        <sidebar-item v-if="isManager || isSchool" :link="{name: 'Violências', icon: 'ni ni-fat-remove text-red', path: '/tipos-violencia'}"/>
         <sidebar-item v-if="isManager" :link="{name: 'Relatórios', icon: 'ni ni-chart-bar-32 text-blue', path: '/relatorios'}"/>
 
       </template>

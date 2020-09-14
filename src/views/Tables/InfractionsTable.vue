@@ -22,7 +22,7 @@
         <template slot="columns">
           <th>Data</th>
           <th>Descrição</th>
-          <th>Tipos de Violencia</th>
+          <th>Tipos de Violência</th>
           
         </template>
 

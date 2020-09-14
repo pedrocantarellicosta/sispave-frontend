@@ -26,7 +26,6 @@
           <th>Id</th>
           <th>Escola</th>
           <th>Bairro</th>
-          <th></th>
         </template>
 
         <template slot-scope="{row}">
@@ -45,19 +44,7 @@
             <span class="name mb-0 text-sm">{{row.neighborhood}}</span>
           </td>
 
-          <td class="text-right">
-            <base-dropdown class="dropdown"
-                           position="right">
-              <a slot="title" class="btn btn-sm btn-icon-only text-light" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-v"></i>
-              </a>
-
-              <template>
-                <a class="dropdown-item" href="#">Editar</a>
-                <a class="dropdown-item" href="#">Excluir</a>
-              </template>
-            </base-dropdown>
-          </td>
+          
         </template>
       </base-table>
     </div>

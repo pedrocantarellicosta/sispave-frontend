@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       violenceRepository: RepositoryFactory.get("violences"),
-      name: "Listar Tipos de Violencia",
+      name: "Tipos de Violência",
       violences:[],
       currentStatus: null,
     };

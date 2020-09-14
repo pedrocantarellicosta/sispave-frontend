@@ -5,7 +5,7 @@
         <div class="col">
           <h3 class="mb-0" :class="type === 'dark' ? 'text-white': ''">{{title}}</h3>
         </div>
-        <div class="col text-right">
+        <div class="col text-right" v-if=isManager>
           <base-button type="success" @click.native="createViolence" size="sm">Criar</base-button>
         </div>
       </div>
@@ -22,7 +22,6 @@
         <template slot="columns">
           <th>Id</th>
           <th>Violência</th>
-          <th></th>
           <th></th>
         </template>
 
@@ -43,28 +42,12 @@
                 v-b-popover.hover= row.description
                 title="Sobre"
                 >Sobre</base-button>
+                <base-button size="sm" type="warning" @click="openYoutube(row.media_link)"
+                >Video</base-button>
 
           </td>
 
-          <td class="text-right">
-            <base-dropdown class="dropdown" position="right">
-              <a
-                slot="title"
-                class="btn btn-sm btn-icon-only text-light"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i class="fas fa-ellipsis-v"></i>
-              </a>
-
-              <template>
-                <a class="dropdown-item" href="#">Editar</a>
-                <a class="dropdown-item" href="#">Excluir</a>
-              </template>
-            </base-dropdown>
-          </td>
+          
         </template>
       </base-table>
     </div>
@@ -117,13 +100,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["totalPages", "currentPage"]),
+    ...mapGetters(["totalPages", "currentPage", "isManager"]),
   },
   methods: {
     ...mapActions(["goToPage"]),
     createViolence() {
       this.$router.push("/tipos-violencia/criar");
     },
+    openYoutube(link) {
+      window.open(link);
+    }
   },
 };
 </script>
