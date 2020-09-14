@@ -5,7 +5,8 @@
       short-title="Argon"
       title="SISPAV"
     >
-    
+      <h4 class="mt-2"> Bem vindo </h4>
+      <h6 v-if="isSchool">EMEF Getúlio Vargas</h6>
       <template slot="links">
         <sidebar-item
           :link="{

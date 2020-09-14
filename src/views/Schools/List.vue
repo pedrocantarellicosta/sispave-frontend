@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       schoolRepository: RepositoryFactory.get("schools"),
-      name: "Listar Escolas",
+      name: "Escolas",
       schools:[],
       currentStatus: null,
     };

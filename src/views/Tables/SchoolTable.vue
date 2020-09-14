@@ -23,24 +23,19 @@
                   :data="tableData"
                   v-if="tableData.length">
         <template slot="columns">
-          <th>Id</th>
           <th>Escola</th>
+          <th>Email</th>
           <th>Bairro</th>
         </template>
 
-        <template slot-scope="{row}">
-          <th scope="row">
-            <div class="media align-items-center">
-              <div class="media-body">
-                <span class="name mb-0 text-sm">{{row.id}}</span>
-              </div>
-            </div>
-          </th>
-          
+        <template slot-scope="{row}">          
           <td class="text-left">
             <span class="name mb-0 text-sm">{{row.name}}</span>
           </td>
-           <td class="text-left">
+          <td class="text-left">
+            <span class="name mb-0 text-sm">{{row.email}}</span>
+          </td>
+          <td class="text-left">
             <span class="name mb-0 text-sm">{{row.neighborhood}}</span>
           </td>
 

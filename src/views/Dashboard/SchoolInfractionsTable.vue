@@ -3,7 +3,7 @@
     <div class="card-header border-0">
       <div class="row align-items-center">
         <div class="col">
-          <h3 class="mb-0">Total de Infrações por Escola</h3>
+          <h3 class="mb-0">Total de Relatos por Escola</h3>
         </div>
       </div>
     </div>
